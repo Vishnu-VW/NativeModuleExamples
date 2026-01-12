@@ -11,10 +11,23 @@ import {
   SafeAreaProvider,
   useSafeAreaInsets,
 } from 'react-native-safe-area-context';
+import AppInfo from './src/native/AppInfo';
+import { useEffect, useState } from 'react';
 
 function App() {
   const isDarkMode = useColorScheme() === 'dark';
+  const [info, setInfo] = useState({});
 
+  useEffect(() => {
+    const getInfo = async () => {
+      const info = await AppInfo.getAppInfo();
+      setInfo(info);
+      console.log('info data', info);
+    };
+    getInfo();
+  }, []);
+
+  
   return (
     <SafeAreaProvider>
       <StatusBar barStyle={isDarkMode ? 'light-content' : 'dark-content'} />
